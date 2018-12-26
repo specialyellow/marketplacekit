@@ -10,9 +10,7 @@
         <div class="pl-sm-5 pr-sm-5">
             <div class="row">
                 {% for category in categories %}
-
-                    {% if category.categories | length %}
-
+                    {% if category.name | length %}
                         <div class="col-sm-3 col-6 mb-5">
                             <a href="{{ route(setting('marketplace_index'), {'category' : category}) }}"><h6 class="text-muted">{{ _l(category.name) }}</h6></a>
                             {% for child_category in category.categories %}

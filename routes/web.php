@@ -24,6 +24,12 @@ Route::get('/test', function () {
 
 include "admin.php";
 
+Route::get('/phpinfo', function () {
+
+	phpinfo();
+});
+
+
 Route::get('/cp', function () {
     if(env('DEMO_PANEL')) {
         \Auth::loginUsingId(1, true);

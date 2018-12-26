@@ -1,0 +1,6 @@
+{
+    "name": "novum",
+    "extends": "default",
+    "asset-path": "novum",
+    "thumbnail": "https://marketplace-kit.s3.amazonaws.com/themes/novum.png"
+}

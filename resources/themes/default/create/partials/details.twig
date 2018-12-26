@@ -4,8 +4,8 @@
 
 
         <div class="form-group">
-            <label>{{ __("Title") }}</label>
-            {{ form_text('title', null, {'class' : 'form-control'}) }}
+            <label>The title will be automatically generated.</label>
+            {{ form_hidden('title', 'New Listing', {'class' : 'form-control'}) }}
         </div>
 
         <div class="form-group">
@@ -16,48 +16,12 @@
             {{ form_hidden('description', null, {'class' : 'form-control'}) }}
         </div>
 
-        <div class="form-group">
-            <label>{{ __("Tags") }}</label>
-            {{ form_text('tags_string', null, {'class' : 'tags'}) }}
-        </div>
-
 
     </div>
 
 </div>
 
 
-<div class="card mb-4">
-    <h6 class="card-header bg-white">{{ __("Location") }}</h6>
-    <div class="card-body">
-
-
-        <div class="form-group">
-            {{ form_text('location', null, {'class' : 'form-control', 'id' : 'location'}) }}
-            {{ form_hidden('lat', null, {'class' : 'form-control', 'id' : 'lat'}) }}
-            {{ form_hidden('lng', null, {'class' : 'form-control', 'id' : 'lng'}) }}
-
-            <div id="create_map" style="width: 100%; height: 400px;"></div>
-
-			<div class="row mt-4">
-				<div class="col-6">
-					<div class="form-group">
-						<label>{{ __("City") }}</label>
-						{{ form_text('city', null, {'class' : 'form-control', 'id' : 'city'}) }}
-					</div>		
-				</div>		
-				<div class="col-6">
-					<div class="form-group">
-						<label>{{ __("Country") }}</label>
-						{{ form_text('country', null, {'class' : 'form-control', 'id' : 'country', 'readonly':'readonly'}) }}
-					</div>
-				</div>
-			</div>
-
-        </div>
-
-    </div>
-</div>
 
 <script>
     if($('#description').length) {
@@ -69,29 +33,4 @@
             $('input[name=description]').val(quill.root.innerHTML);
         });
     }
-        if($('#create_map').length) {
-
-            $('#create_map').locationpicker({
-                location: {
-                    latitude: {{listing.lat}},
-                    longitude: {{listing.lng}}
-                },
-                radius: 0,
-                enableAutocomplete: true,
-                enableAutocompleteBlur: true,
-
-                inputBinding: {
-                    latitudeInput: $('#lat'),
-                    longitudeInput: $('#lng'),
-                    locationNameInput: $('#location')
-                },
-
-                onchanged: function (currentLocation, radius, isMarkerDropped) {
-                    var addressComponents = $(this).locationpicker('map').location.addressComponents;
-                    $('#city').val(addressComponents.city);
-                    $('#country').val(addressComponents.country);
-                }
-            });
-
-        }
 </script>

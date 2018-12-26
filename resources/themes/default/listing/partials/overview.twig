@@ -39,15 +39,80 @@
                 {% endif %}
 
             </div>
+        </div>
+        <div class="card">
             <div class="card-body">
                 <div class="row">
-
-
                     <div class="col-sm-12">
                         <h6 class="mt-2">{{ __("Overview") }}</h6>
 
                         <hr/>
+                        <div class="row">
+                            <div class="col-md-6" id="summary">
+                                {{ listing.meta.year}} {{ listing.meta.model }} {{ listing.meta['body-type']}}
+                            </div>
+                            <div class="col-md-6" id="summary">
+                                Doors: {{ listing.meta['number-of-doors'] }}
+                            </div>
 
+                            <div class="col-md-6" id="summary">
+                                Mileage: {{ listing.meta.mileage }}
+                            </div>
+                            <div class="col-md-6" id="summary">
+                                MOT Expiry: {{ listing.meta['mot-expires'] }}
+                            </div>
+                            <div class="col-md-6" id="summary">
+                                Registration: {{ listing.meta['car-registration'] }}
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h6 class="mt-2">Period Extras</h6>
+
+                        <hr/>
+                        <div class="row">
+                            {% for extra in listing.meta.extras %}
+                                <span class="badge badge-pill badge-danger font-weight-bold text-uppercase mr-1 pr-3 pl-3 mt-3">{{ extra }}</span>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h6 class="mt-2">Faults</h6>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-md-6" id="summary">
+                                {{ listing.meta.faults }} 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </br>
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-12">
+
+                        <h6 class="mt-2">Description</h6>
+
+                        <hr />
                         <div class="row">
                             <div class="col-md-12" id="listing-description">
                                 {% if input_get('translate') %}
@@ -83,8 +148,6 @@
 
                     </div>
                 </div>
-
-                <br/>
                 <br/>
 
             </div>

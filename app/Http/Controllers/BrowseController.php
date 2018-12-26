@@ -24,6 +24,7 @@ class BrowseController extends Controller
         }
 
         $data = $this->getListingData($request);
+
         if($request->get('ajax')) {
             return response()->json($data);
         }

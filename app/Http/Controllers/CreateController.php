@@ -40,6 +40,7 @@ class CreateController extends Controller
     public function index()
     {
 
+
         if(auth()->check() && setting('single_listing_per_user')) {
             //let's see if we have a listing
             $user = auth()->user();
@@ -51,7 +52,6 @@ class CreateController extends Controller
 
         $data = [];
         $data['listings_form'] = Setting::get('listings_form', []);
-
         $listing = new Listing();
         $data['listing'] = $listing;
         $categories = Category::nested()->get();
@@ -96,7 +96,6 @@ class CreateController extends Controller
         $data['form'] = 'create';
 
         $view = 'listing.create.pricing_model';
-
         return view($view, $data);
     }
 
@@ -110,6 +109,7 @@ class CreateController extends Controller
     {
 
         $params = $request->all();
+
         #return response('OK', 200)->header('X-IC-Redirect', '/create/r4W0J7ObQJ/edit#images_section');
         $validator = Validator::make($request->all(), [
             'title' => 'required|min:5|max:255',
@@ -179,7 +179,6 @@ class CreateController extends Controller
         $data['listing'] = $listing;
         $filters = Filter::get();
         $listings_form = [];
-
         foreach($filters as $element) {
             if($element->form_input_meta) {
                 $form_input_meta = $element->form_input_meta;
@@ -195,8 +194,8 @@ class CreateController extends Controller
                 $listings_form[] = $form_input_meta;
             }
         }
-
         $data['listings_form'] = $listings_form;
+
         return view('create.edit', $data);
     }
 
@@ -422,6 +421,8 @@ class CreateController extends Controller
         if($request->has('undraft')) {
             $listing->is_draft = false;
         }
+
+        $listing->title =  '[' . $listing->category->name . ']' . $listing->meta['year'] . ' '  . ' ' . $listing->meta['model'] . ' | ' . $listing->city . ' | £' . $listing->price;
 
         $listing->save();
 

@@ -31,6 +31,7 @@ class ListingController extends Controller
     public function index($listing, $slug, Request $request)
     {
 	
+
         $data = [];
         $visible_listing = $listing->is_published && $listing->is_admin_verified && !$listing->is_disabled;
         $can_edit = auth()->check() && (auth()->user()->id == $listing->user_id || auth()->user()->can('edit listing'));
@@ -62,6 +63,30 @@ class ListingController extends Controller
         if($request->has('iframe')) {
             return view('listing.iframe', $data);
         }
+ // {
+       // "model":"Anglia Super",
+       // "faults":"It's in bits",
+       // "year":"1967",
+       // "mileage":"120000",
+       // "car-registration":"EJM378F",
+       // "mot-expires":"2018-12-01",
+       // "body-type":"saloon",
+       // "number-of-doors":"two",
+       // "extras":["aircon","radio-cassette","cd-player","carphone","furry-dice","8track","wind-up-windows","matching-hubcaps","rear-seat-belts","manual-choke","original-dealer-sticker","more-than-one-key","faint-smell-of-wet-dog","rust"]}
+
+
+// meta":{
+    //     "model":"Escort LX",
+    //     "faults":"No there are none",
+    //     "year":"1985",
+    //     "mileage":"12000",
+    //     "car-registration":"EJM378F",
+    //     "mot-expires":"2001-01-01",
+    //     "body-type":"saloon",
+    //     "number-of-doors":"two"
+    // }
+
+
         return view('listing.show', $data);
     }
 

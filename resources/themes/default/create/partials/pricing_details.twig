@@ -17,38 +17,9 @@
                     <label>{{ __("Price in :currency", {'currency': listing.currency}) }}</label>
                     <div class="input-group mb-0">
                         {{ form_text('price', null, {'class' : 'form-control'}) }}
-
-                        {% if listing.pricing_model.widget != 'request' %}
-                        <div class="input-group-append">
-                            {% if listing.pricing_model.widget == 'book_date' %}
-                                <span class="input-group-text">{{ __("per") }} {{ listing.pricing_model.duration_name }}</span>
-                            {%  else %}
-                                <span class="input-group-text">{{ __("per") }} {{ listing.pricing_model.pricing_unit }}</span>
-                            {%  endif %}
-                        </div>
-                        {%  endif %}
                     </div>
 
                 </div>
-            </div>
-            <div class="col-sm-6">
-                {% if listing.pricing_model.widget == 'request' %}
-                    <div class="form-group mt-2">
-                        <label>{{ __("Pricing display name") }} <small class="text-muted">{{ __("(optional)") }}</small></label>
-                        {{ form_text('price_per_unit_display', null, {'class' : 'form-control', 'style':'border-lefts: 1px dashed #eee', 'placeholder':__("e.g. per...")}) }}
-                        <small class="form-text text-muted">
-                            {{ __("e.g. per week, per kg, per box, per unit") }}
-                        </small>
-                    </div>
-                {%  else %}
-                    <div class="form-group mt-2">
-                        <label>{{ listing.pricing_model.quantity_label|capitalize }}</label>
-                        {{ form_number('stock', null, {'class' : 'form-control'}) }}
-                        {% if listing.pricing_model.widget == 'buy' %}
-                        <p class="form-text text-muted small">{{ __("Only applicable if the item does not have variants") }}</p>
-                        {% endif %}
-                    </div>
-                {%  endif %}
             </div>
         </div>
 
