@@ -20,9 +20,11 @@ Route::get('/test', function () {
 });
 */
 
+Auth::routes();
 
-
-include "admin.php";
+Route::get('/', function () {
+    return 'Blog!';
+});
 
 Route::get('/phpinfo', function () {
 
@@ -36,7 +38,4 @@ Route::get('/cp', function () {
         return redirect("/panel");
     }
 });
-
-include "classifieds.php";
-
 

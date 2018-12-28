@@ -68,6 +68,10 @@ class RouteServiceProvider extends ServiceProvider
     {
         $this->mapApiRoutes();
 
+        $this->mapWinRoutes();
+
+        $this->mapClassifiedsRoutes();
+
         $this->mapWebRoutes();
 
         //
@@ -82,7 +86,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes()
     {
-        Route::middleware('web')
+        Route::domain($this->baseDomain())
+             ->middleware('web')
              ->namespace($this->namespace)
              ->group(base_path('routes/web.php'));
     }
@@ -96,9 +101,35 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
+        Route::domain($this->baseDomain('api'))
              ->middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }
+
+    protected function mapWinRoutes()
+    {
+        Route::domain($this->baseDomain('win'))
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/win.php'));
+    }
+
+    protected function mapClassifiedsRoutes()
+    {
+        Route::domain($this->baseDomain('classifieds'))
+             ->middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/classifieds.php'));
+    }
+
+    private function baseDomain(string $subdomain = ''): string
+    {
+        if (strlen($subdomain) > 0) {
+            $subdomain = "{$subdomain}.";
+        }
+
+        return $subdomain . config('app.base_domain');
+    }
+
 }

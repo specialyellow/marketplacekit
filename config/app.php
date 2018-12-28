@@ -14,7 +14,7 @@ return [
     */
 
     'name' => env('APP_NAME', 'MarketplaceKit'),
-
+    'base_domain' => env('APP_BASE_DOMAIN'),
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -1,4 +1,6 @@
 <?php
+include "admin.php";
+
 
 Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'jailBanned'], function()
 {
