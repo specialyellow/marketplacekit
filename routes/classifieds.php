@@ -7,7 +7,7 @@ Route::group(['prefix' => LaravelLocalization::setLocale(), 'middleware' => 'jai
     Route::get('email-verification/error', 'Auth\EmailVerificationController@getVerificationError')->name('email-verification.error');
     Route::get('email-verification/check/{token}', 'Auth\EmailVerificationController@getVerification')->name('email-verification.check');
 
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'Classifieds\HomeController@index')->name('home');
     Route::get('/browse', 'Classifieds\BrowseController@listings')->name('browse');
 
     Route::get('/pages/{slug}', 'PageController@index')->name('page');
