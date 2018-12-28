@@ -4,6 +4,7 @@
 
 
         <div class="form-group">
+            <label>Enter your full or partial post code</label>
             {{ form_text('location', null, {'class' : 'form-control', 'id' : 'location'}) }}
             {{ form_hidden('lat', null, {'class' : 'form-control', 'id' : 'lat'}) }}
             {{ form_hidden('lng', null, {'class' : 'form-control', 'id' : 'lng'}) }}
@@ -13,8 +14,8 @@
 			<div class="row mt-4">
 				<div class="col-6">
 					<div class="form-group">
-						<label>{{ __("City") }}</label>
-						{{ form_text('city', null, {'class' : 'form-control', 'id' : 'city'}) }}
+						<label>Post Code</label>
+						{{ form_text('city', null, {'class' : 'form-control', 'id' : 'city','readonly':'readonly'}) }}
 					</div>		
 				</div>		
 				<div class="col-6">
@@ -51,7 +52,8 @@
 
             onchanged: function (currentLocation, radius, isMarkerDropped) {
                 var addressComponents = $(this).locationpicker('map').location.addressComponents;
-                $('#city').val(addressComponents.city);
+                console.log(addressComponents)
+                $('#city').val(addressComponents.postalCode);
                 $('#country').val(addressComponents.country);
             }
         });

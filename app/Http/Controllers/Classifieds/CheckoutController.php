@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Classifieds;
+use App\Http\Controllers\Controller;
 
 use App\Events\OrderPlaced;
 use Illuminate\Http\Request;

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Classifieds;
 
 use App\Mail\ListingVerified;
 use Illuminate\Http\Request;
@@ -63,6 +63,7 @@ class ListingController extends Controller
         if($request->has('iframe')) {
             return view('listing.iframe', $data);
         }
+
  // {
        // "model":"Anglia Super",
        // "faults":"It's in bits",
@@ -151,7 +152,6 @@ class ListingController extends Controller
         $data['selected_category'] = $selected_category;
         $data['selected_pricing_model'] = $selected_pricing_model;
         $data['form'] = 'edit';
-
         return view('create.details', $data);
     }
 	

@@ -14,9 +14,9 @@
 
             <div class="col-sm-6">
                 <div class="form-group mt-2">
-                    <label>{{ __("Price in :currency", {'currency': listing.currency}) }}</label>
+                    <label>{{ __("Price in :currency", {'currency': listing.currency}) }}. Max price is £2000</label>
                     <div class="input-group mb-0">
-                        {{ form_text('price', null, {'class' : 'form-control'}) }}
+                        {{ form_number('price', null, {'class' : 'form-control','min' : 50, 'max' : '2000'}) }}
                     </div>
 
                 </div>

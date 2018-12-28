@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Classifieds;
+use App\Http\Controllers\Controller;
 
 use App\Http\Requests\StoreListing;
 use App\Mail\NewListing;
@@ -111,16 +112,17 @@ class CreateController extends Controller
         $params = $request->all();
 
         #return response('OK', 200)->header('X-IC-Redirect', '/create/r4W0J7ObQJ/edit#images_section');
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|min:5|max:255',
-            'description_new' => 'required|min:5',
-        ]);
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|min:5|max:255',
+        //     'description_new' => 'required|min:5',
+        //     'price' => 'required|min:50|max:2000'
+        // ]);
 
-        if ($validator->fails()) {
-            return redirect(route('create.index', ['category' => $request->get('category'), 'pricing_model' => $request->get('pricing_model') ]))
-                        ->withErrors($validator)
-                        ->withInput();
-        }
+        // if ($validator->fails()) {
+        //     return redirect(route('create.index', ['category' => $request->get('category'), 'pricing_model' => $request->get('pricing_model') ]))
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
 
         $params['category_id'] = $request->get('category');
         $params['pricing_model_id'] = $request->get('pricing_model');
@@ -155,7 +157,7 @@ class CreateController extends Controller
         }
 
         //redirect to success page
-        return response('OK', 200)->header('X-IC-Redirect', $listing->edit_url.'#images_section');
+        return response('OK', 200)->header('X-IC-Redirect', $listing->edit_url.'#additional_information');
     }
 
     /**
@@ -180,23 +182,21 @@ class CreateController extends Controller
         $filters = Filter::get();
         $listings_form = [];
         foreach($filters as $element) {
-            if($element->form_input_meta) {
+            if(($element->form_input_meta) && ($element->field != 'price' )){
                 $form_input_meta = $element->form_input_meta;
                 $form_input_meta['name'] = 'filters['.$element->form_input_meta['name'].']';
                 $form_input_meta['value'] = (@$listing->meta[$element->form_input_meta['name']]);
-
                 if(isset($form_input_meta['values']) && is_array($form_input_meta['value'])) {
                     foreach ($form_input_meta['values'] as $k => $v) {
                         $form_input_meta['values'][$k]['selected'] = in_array($v['value'], $form_input_meta['value']);
                     }
                 }
-
                 $listings_form[] = $form_input_meta;
             }
         }
         $data['listings_form'] = $listings_form;
 
-        return view('create.edit', $data);
+            return view('create.edit', $data);
     }
 
     public function images($listing)
@@ -229,7 +229,18 @@ class CreateController extends Controller
     public function update($listing, Request $request)
     {
         $this->authorize('update', $listing);
+        // $validator = Validator::make($request->all(), [
+        //     'title' => 'required|min:5|max:255',
+        //     'description_new' => 'required|min:5',
+        //     'price' => 'required|min:50|max:2000'
+        // ]);
 
+        // if ($validator->fails()) {
+        //     return redirect(route('create.edit', ['category' => $request->get('category'), 'pricing_model' => $request->get('pricing_model') ]))
+        //                 ->withErrors($validator)
+        //                 ->withInput();
+        // }
+        
         $params = $request->all();
 
         $filters = Filter::orderBy('position', 'ASC')->where('is_hidden', 0)->where('is_default', 0)->get();
@@ -408,7 +419,14 @@ class CreateController extends Controller
         if($request->get('lat') && $request->get('lng')) {
             $point= new Point($request->get('lat'), $request->get('lng'));
             $listing->location = \DB::raw("GeomFromText('POINT(".$point->getLng()." ".$point->getLat().")')");
+            $postcode = explode(' ', $request->get('city', 2));
+            if ($postcode == '') $postcode = $request->get('city', 2);
+            $listing->title =  '[' . $postcode[0] . ']' . $listing->meta['year'] . ' ' . $listing->category->name . ' ' . $listing->meta['model'] . ' | £' . $listing->price;
+
+
         }
+
+
         if($request->has('price_per_unit_display')) {
             $listing->price_per_unit_display = $request->input('price_per_unit_display');
             if($listing->pricing_model->widget == 'request') {
@@ -422,7 +440,6 @@ class CreateController extends Controller
             $listing->is_draft = false;
         }
 
-        $listing->title =  '[' . $listing->category->name . ']' . $listing->meta['year'] . ' '  . ' ' . $listing->meta['model'] . ' | ' . $listing->city . ' | £' . $listing->price;
 
         $listing->save();
 

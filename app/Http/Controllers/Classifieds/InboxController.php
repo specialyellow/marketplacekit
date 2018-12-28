@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Classifieds;
 
 use App\Http\Requests\StoreDirectMessage;
 use App\Mail\ReceiveMessage;
